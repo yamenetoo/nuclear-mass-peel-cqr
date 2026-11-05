@@ -1,0 +1,11 @@
+ame_data/
+__pycache__/
+.ipynb_checkpoints/
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz

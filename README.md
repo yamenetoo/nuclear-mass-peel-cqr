@@ -38,6 +38,7 @@ Methods compared: Gaussian-process credible intervals, CQR with random calibrati
 ```
 assets/logo.svg                      logo
 notebooks/
+  adndt_mass_table.ipynb             Colab: full mass table with 68%/95% intervals (drip line to drip line)
   nuclear_mass_conformal_v2.ipynb    main experiment: rolling folds, Peel-CQR, statistical tests, Excel export
   nuclear_mass_conformal_v1.ipynb    first single-fold version
 requirements.txt
@@ -53,6 +54,20 @@ jupyter notebook notebooks/nuclear_mass_conformal_v2.ipynb
 ```
 
 The notebook downloads the AME tables from the IAEA Atomic Mass Data Center. Some servers refuse scripted downloads (HTTP 403); in that case download `mass.mas03`, `mass.mas12`, `mass16.txt` and `mass_1.mas20.txt` from <https://www-nds.iaea.org/amdc/> and place them in `ame_data/`. On Kaggle, upload them as a dataset and the notebook finds them automatically. Runtime is about 5–10 minutes on a CPU.
+
+## Producing the full mass table (Google Colab)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yamenetoo/nuclear-mass-peel-cqr/blob/main/notebooks/adndt_mass_table.ipynb)
+
+`adndt_mass_table.ipynb` produces a complete table of nuclei from the proton to the neutron drip line, intended as a data table for *Atomic Data and Nuclear Data Tables*:
+
+- binding energy and mass excess with **68% and 95% Peel-CQR intervals**, calibrated separately at each extrapolation distance;
+- derived quantities `S_n`, `S_2n`, `S_p`, `S_2p`, `Q_alpha`, `Q_beta-` with intervals built by the union (Bonferroni) bound from the mass intervals — conservative for any correlation between the two masses;
+- AME2020 experimental values beside the model values for measured nuclei, and flags for nuclei beyond the calibrated distance or whose bound status is uncertain at 95%;
+- a **back-test** that retrains on AME2012 only and reports coverage on later measurements, for masses and all derived quantities, with Clopper–Pearson intervals;
+- an auto-generated *Explanation of Tables* (Markdown and LaTeX) filled with the numbers of the run.
+
+Outputs: `mass_table_full.csv`, `mass_table.xlsx`, a fixed-width `mass_table_ascii.txt`, a printable `mass_table_longtable.tex`, the explanation files and figures, all zipped and downloaded at the end. Set `BASE_FILE` to a WS4, FRDM2012 or HFB-24 table before producing a table for publication; the liquid-drop fallback is for testing only.
 
 **Changing the base model.** Load a WS4, FRDM2012 or HFB table with `load_base_table(...)` (Section 3 of the notebook).
 

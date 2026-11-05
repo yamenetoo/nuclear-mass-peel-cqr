@@ -37,6 +37,7 @@ Methods compared: Gaussian-process credible intervals, CQR with random calibrati
 
 ```
 assets/logo.svg                      logo
+data/ame/                            AME2012 and AME2020 mass tables (unchanged copies)
 notebooks/
   adndt_mass_table.ipynb             Colab: full mass table with 68%/95% intervals (drip line to drip line)
   nuclear_mass_conformal_v2.ipynb    main experiment: rolling folds, Peel-CQR, statistical tests, Excel export
@@ -53,7 +54,7 @@ pip install -r requirements.txt
 jupyter notebook notebooks/nuclear_mass_conformal_v2.ipynb
 ```
 
-The notebook downloads the AME tables from the IAEA Atomic Mass Data Center. Some servers refuse scripted downloads (HTTP 403); in that case download `mass.mas03`, `mass.mas12`, `mass16.txt` and `mass_1.mas20.txt` from <https://www-nds.iaea.org/amdc/> and place them in `ame_data/`. On Kaggle, upload them as a dataset and the notebook finds them automatically. Runtime is about 5–10 minutes on a CPU.
+AME2012 and AME2020 are included in `data/ame/` and are loaded automatically (locally or from this repository on Colab/Kaggle). The v2 notebook also uses AME2003 and AME2016 for extra folds when available: download `mass.mas03` and `mass16.txt` from <https://www-nds.iaea.org/amdc/> and place them in `ame_data/`. Runtime is about 5–10 minutes on a CPU.
 
 ## Producing the full mass table (Google Colab)
 
@@ -75,7 +76,7 @@ Outputs: `mass_table_full.csv`, `mass_table.xlsx`, a fixed-width `mass_table_asc
 
 ## Data
 
-Atomic Mass Evaluations AME2003 (Nucl. Phys. A 729, 337), AME2012 (Chin. Phys. C 36, 1603), AME2016 (Chin. Phys. C 41, 030003) and AME2020 (Chin. Phys. C 45, 030002–030003). The AME files are not redistributed here.
+Atomic Mass Evaluations AME2003 (Nucl. Phys. A 729, 337), AME2012 (Chin. Phys. C 36, 1603), AME2016 (Chin. Phys. C 41, 030003) and AME2020 (Chin. Phys. C 45, 030002–030003), from the IAEA Atomic Mass Data Center. Unchanged copies of AME2012 and AME2020 are in `data/ame/`; please cite the AME papers when using them.
 
 ## Citation
 

@@ -40,6 +40,7 @@ assets/logo.svg                      logo
 data/ame/                            AME2012 and AME2020 mass tables (unchanged copies)
 notebooks/
   adndt_mass_table.ipynb             Colab: full mass table with 68%/95% intervals (drip line to drip line)
+  nuclear_mass_conformal_v3.ipynb    extended benchmark: ML uncertainty baselines, simulation study, ablations
   nuclear_mass_conformal_v2.ipynb    main experiment: rolling folds, Peel-CQR, statistical tests, Excel export
   nuclear_mass_conformal_v1.ipynb    first single-fold version
 requirements.txt
@@ -55,6 +56,21 @@ jupyter notebook notebooks/nuclear_mass_conformal_v2.ipynb
 ```
 
 AME2012 and AME2020 are included in `data/ame/` and are loaded automatically (locally or from this repository on Colab/Kaggle). The v2 notebook also uses AME2003 and AME2016 for extra folds when available: download `mass.mas03` and `mass16.txt` from <https://www-nds.iaea.org/amdc/> and place them in `ame_data/`. Runtime is about 5–10 minutes on a CPU.
+
+## Extended benchmark (v3)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yamenetoo/nuclear-mass-peel-cqr/blob/main/notebooks/nuclear_mass_conformal_v3.ipynb)
+
+`nuclear_mass_conformal_v3.ipynb` compares Peel-CQR with uncertainty methods from the machine-learning literature on the same rolling AME folds:
+
+- **Baselines:** Gaussian process, MLP ensemble, quantile regression forest, CV+ (cross-conformal), split CQR with random calibration, weighted conformal prediction under covariate shift (exact and with clipped density ratios), and CQR calibrated on a later edition when available.
+- **Learner-agnostic Peel-CQR:** with gradient-boosted quantiles and with quantile regression forests.
+- **Simulation study** on a synthetic chart with known truth and tunable extrapolation difficulty.
+- **Metrics and tests:** coverage with Clopper–Pearson intervals, interval (Winkler) score, coverage by physical region (near magic numbers, parity, mass range), exact McNemar tests with Holm correction.
+- **Ablations:** distance metric, monotone calibration curve, number of peeled layers; computation time per method.
+- **Application:** ranking unmeasured nuclei for future measurement by their calibrated uncertainty.
+
+All tables are written to `nuclear_mass_results_v3.xlsx`. Runtime is about 10–15 minutes on a CPU (set `RUN_GP` or `RUN_SIMULATION` to `False` to shorten it).
 
 ## Producing the full mass table (Google Colab)
 

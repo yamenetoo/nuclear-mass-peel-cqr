@@ -64,7 +64,7 @@ All three main notebooks (`v2`, `v3`, `adndt_mass_table`) start with a **compute
 ```python
 USE_GPU = "auto"          # use NVIDIA GPU(s) when present (Colab T4, Kaggle 2×T4, a local CUDA card)
 N_JOBS = -1               # parallel worker processes, -1 = all CPU cores
-GPU_WORKERS_PER_GPU = 3   # workers sharing one GPU
+GPU_WORKERS_PER_GPU = "auto"  # workers sharing one GPU (about one per 0.8 GB of GPU memory)
 ```
 
 | Component | GPU | CPU |
@@ -76,6 +76,19 @@ GPU_WORKERS_PER_GPU = 3   # workers sharing one GPU
 | Folds, subsamples, ablations, simulation replications | spread over worker processes (`joblib`); with several GPUs, workers alternate between them | same |
 
 Any GPU step that fails falls back to the CPU version with a single warning. On Colab choose `Runtime → Change runtime type → T4 GPU`; on Kaggle enable `GPU T4 x2`. The data set is small (~2,500 nuclei), so most of the gain comes from parallel workers and from the Gaussian process; GPU and CPU learners are different implementations, so results can differ slightly between the two backends, but parallel and sequential runs on the same backend give identical results.
+
+### Running on your own computer (Windows, Linux or macOS)
+
+```bash
+git clone https://github.com/yamenetoo/nuclear-mass-peel-cqr
+cd nuclear-mass-peel-cqr
+pip install -r requirements.txt
+# NVIDIA GPU (optional): install the CUDA build of PyTorch, e.g. for CUDA 12.1
+pip install torch --index-url https://download.pytorch.org/whl/cu121
+jupyter notebook notebooks/
+```
+
+The AME files in `data/ame/` are found automatically. On Windows, `pip install torch` alone installs a CPU-only build; use the CUDA index URL above (check the right one for your driver at pytorch.org). XGBoost's Windows and Linux wheels already include GPU support. If GPU memory is small, set `USE_GPU = False` and let all CPU cores run in parallel — for this data size that is often just as fast.
 
 ## Extended benchmark (v3)
 

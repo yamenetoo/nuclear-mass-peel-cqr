@@ -37,7 +37,7 @@ Methods compared: Gaussian-process credible intervals, CQR with random calibrati
 
 ```
 assets/logo.svg                      logo
-data/ame/                            AME2012 and AME2020 mass tables (unchanged copies)
+data/ame/                            AME2003, 2012, 2016 and 2020 mass tables (unchanged copies)
 notebooks/
   adndt_mass_table.ipynb             Colab: full mass table with 68%/95% intervals (drip line to drip line)
   nuclear_mass_conformal_v3.ipynb    extended benchmark: ML uncertainty baselines, simulation study, ablations
@@ -55,7 +55,7 @@ pip install -r requirements.txt
 jupyter notebook notebooks/nuclear_mass_conformal_v2.ipynb
 ```
 
-AME2012 and AME2020 are included in `data/ame/` and are loaded automatically (locally or from this repository on Colab/Kaggle). The v2 notebook also uses AME2003 and AME2016 for extra folds when available: download `mass.mas03` and `mass16.txt` from <https://www-nds.iaea.org/amdc/> and place them in `ame_data/`. Runtime is about 5–10 minutes on a CPU.
+All four AME editions used (2003, 2012, 2016, 2020) are included in `data/ame/` and are loaded automatically, locally or from this repository on Colab and Kaggle. Runtime is about 5–10 minutes on a CPU.
 
 ## Speed: GPU and parallel workers
 
@@ -126,7 +126,7 @@ Outputs: `mass_table_full.csv`, `mass_table.xlsx`, a fixed-width `mass_table_asc
 
 ## Data
 
-Atomic Mass Evaluations AME2003 (Nucl. Phys. A 729, 337), AME2012 (Chin. Phys. C 36, 1603), AME2016 (Chin. Phys. C 41, 030003) and AME2020 (Chin. Phys. C 45, 030002–030003), from the IAEA Atomic Mass Data Center. Unchanged copies of AME2012 and AME2020 are in `data/ame/`; please cite the AME papers when using them.
+Atomic Mass Evaluations AME2003 (Nucl. Phys. A 729, 337), AME2012 (Chin. Phys. C 36, 1603), AME2016 (Chin. Phys. C 41, 030003) and AME2020 (Chin. Phys. C 45, 030002–030003), from the IAEA Atomic Mass Data Center. Unchanged copies of AME2003, AME2012, AME2016 and AME2020 are in `data/ame/`; please cite the AME papers when using them.
 
 ## Citation
 

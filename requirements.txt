@@ -6,3 +6,6 @@ matplotlib
 openpyxl
 requests
 jupyter
+joblib
+xgboost>=2.0  # optional: GPU quantile boosting
+torch  # optional: GPU Gaussian process, MLP ensemble, QRF weights

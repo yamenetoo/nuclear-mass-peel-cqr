@@ -57,6 +57,26 @@ jupyter notebook notebooks/nuclear_mass_conformal_v2.ipynb
 
 AME2012 and AME2020 are included in `data/ame/` and are loaded automatically (locally or from this repository on Colab/Kaggle). The v2 notebook also uses AME2003 and AME2016 for extra folds when available: download `mass.mas03` and `mass16.txt` from <https://www-nds.iaea.org/amdc/> and place them in `ame_data/`. Runtime is about 5–10 minutes on a CPU.
 
+## Speed: GPU and parallel workers
+
+All three main notebooks (`v2`, `v3`, `adndt_mass_table`) start with a **compute backend** cell:
+
+```python
+USE_GPU = "auto"          # use NVIDIA GPU(s) when present (Colab T4, Kaggle 2×T4, a local CUDA card)
+N_JOBS = -1               # parallel worker processes, -1 = all CPU cores
+GPU_WORKERS_PER_GPU = 3   # workers sharing one GPU
+```
+
+| Component | GPU | CPU |
+|---|---|---|
+| Gradient-boosted quantiles | XGBoost `reg:quantileerror`, all quantile levels in one model | scikit-learn `HistGradientBoostingRegressor` |
+| Gaussian process | exact GP in PyTorch (Adam on the marginal likelihood, Cholesky solves) | scikit-learn |
+| MLP ensemble | PyTorch | scikit-learn |
+| Quantile regression forest weights | PyTorch | NumPy |
+| Folds, subsamples, ablations, simulation replications | spread over worker processes (`joblib`); with several GPUs, workers alternate between them | same |
+
+Any GPU step that fails falls back to the CPU version with a single warning. On Colab choose `Runtime → Change runtime type → T4 GPU`; on Kaggle enable `GPU T4 x2`. The data set is small (~2,500 nuclei), so most of the gain comes from parallel workers and from the Gaussian process; GPU and CPU learners are different implementations, so results can differ slightly between the two backends, but parallel and sequential runs on the same backend give identical results.
+
 ## Extended benchmark (v3)
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yamenetoo/nuclear-mass-peel-cqr/blob/main/notebooks/nuclear_mass_conformal_v3.ipynb)

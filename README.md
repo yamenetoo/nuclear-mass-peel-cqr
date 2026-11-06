@@ -63,8 +63,9 @@ All three main notebooks (`v2`, `v3`, `adndt_mass_table`) start with a **compute
 
 ```python
 USE_GPU = "auto"          # use NVIDIA GPU(s) when present (Colab T4, Kaggle 2×T4, a local CUDA card)
-N_JOBS = -1               # parallel worker processes, -1 = all CPU cores
-GPU_WORKERS_PER_GPU = "auto"  # workers sharing one GPU (about one per 0.8 GB of GPU memory)
+N_JOBS = -1               # parallel workers, -1 = as many as CPU cores and free RAM allow
+RAM_PER_WORKER_GB = "auto"    # RAM reserved per worker
+GPU_WORKERS_PER_GPU = "auto"  # workers sharing one GPU (at most 2 on Windows, 4 elsewhere)
 ```
 
 | Component | GPU | CPU |
@@ -75,7 +76,7 @@ GPU_WORKERS_PER_GPU = "auto"  # workers sharing one GPU (about one per 0.8 GB of
 | Quantile regression forest weights | PyTorch | NumPy |
 | Folds, subsamples, ablations, simulation replications | spread over worker processes (`joblib`); with several GPUs, workers alternate between them | same |
 
-Any GPU step that fails falls back to the CPU version with a single warning. On Colab choose `Runtime → Change runtime type → T4 GPU`; on Kaggle enable `GPU T4 x2`. The data set is small (~2,500 nuclei), so most of the gain comes from parallel workers and from the Gaussian process; GPU and CPU learners are different implementations, so results can differ slightly between the two backends, but parallel and sequential runs on the same backend give identical results.
+Any GPU step that fails falls back to the CPU version with a single warning. If worker processes run out of memory, the step is retried automatically with half as many workers. On Colab choose `Runtime → Change runtime type → T4 GPU`; on Kaggle enable `GPU T4 x2`. The data set is small (~2,500 nuclei), so most of the gain comes from parallel workers and from the Gaussian process; GPU and CPU learners are different implementations, so results can differ slightly between the two backends, but parallel and sequential runs on the same backend give identical results.
 
 ### Running on your own computer (Windows, Linux or macOS)
 
